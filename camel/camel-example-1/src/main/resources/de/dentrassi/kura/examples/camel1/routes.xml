@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes
+    xmlns="http://camel.apache.org/schema/spring"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://camel.apache.org/schema/spring https://camel.apache.org/schema/spring/camel-spring-2.17.3.xsd">
+
+    <!--
+      - also see:
+      -   https://camel.apache.org/simple.html
+      -   https://camel.apache.org/stream.html
+      -   https://camel.apache.org/timer.html
+      -->
+
+    <route id="camle-example-1">
+        <from uri="timer:t1" />
+        <setBody>
+            <simple>${random(100)}</simple>
+        </setBody>
+        <to uri="stream:out" />
+    </route>
+
+</routes>

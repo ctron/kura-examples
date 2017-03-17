@@ -8,22 +8,16 @@
  * Contributors:
  *     Red Hat Inc - initial API and implementation
  *******************************************************************************/
-package de.dentrassi.kura.examples.simple1;
+package de.dentrassi.kura.examples.camel1;
 
-import org.osgi.service.metatype.annotations.AttributeDefinition;
 import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 
 /**
- * Meta type information for {@link ExampleConfigurableComponent}
+ * Meta type information for {@link CamelExampleConfigurableComponent}
  * <p>
  * <strong>Note: </strong> The id must be the full qualified name of the assigned component.
  * </p>
  */
-@ObjectClassDefinition(id="de.dentrassi.kura.examples.simple1.ExampleConfigurableComponent", name="Example #1", description="This is the example #1 component")
+@ObjectClassDefinition(id="de.dentrassi.kura.examples.camel1.CamelExampleConfigurableComponent", name="Camel Example #1", description="This is the Camel example #1 component")
 @interface Config {
-	@AttributeDefinition(name = "Some string", description = "This is just some string value")
-	String someString() default "Hello World";
-
-	@AttributeDefinition(name = "Enabled", description = "Whether the component is enabled or not")
-	boolean enabled() default true;
 }

@@ -5,14 +5,15 @@
 
 	<parent>
 		<groupId>de.dentrassi.kura.examples</groupId>
-		<artifactId>kura-examples</artifactId>
+		<artifactId>simple</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>..</relativePath>
 	</parent>
 
 	<artifactId>simple-example-1</artifactId>
 	<packaging>bundle</packaging>
 	
-	<name>Eclipse Kura Examples :: Simple Example #1</name>
+	<name>Eclipse Kura Examples :: Simple :: Simple Example #1</name>
 
 	<dependencies>
 		<dependency>
