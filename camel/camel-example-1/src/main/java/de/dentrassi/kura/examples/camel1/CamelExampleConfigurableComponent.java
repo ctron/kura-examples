@@ -51,7 +51,7 @@ import org.osgi.service.metatype.annotations.Designate;
  * {@link RoutesProvider#applyRoutes(org.apache.camel.CamelContext)} method
  * multiple times (when required), the {@link RouteBuilder} class will only call
  * its {@link RouteBuilder#configure()} at the first time. So you will need to
- * pass in a different instance of your {@link RouteBuilder} implemention.
+ * pass in a different instance of your {@link RouteBuilder} implementation.
  * </p>
  * <p>
  * Although this component does not make any use of the configuration service,
