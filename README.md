@@ -1,4 +1,4 @@
-# Eclipse Kura™ examples
+# Eclipse Kura™ examples [![Travis](https://img.shields.io/travis/ctron/kura-examples.svg)](https://travis-ci.org/ctron/kura-examples)
 
 This is a repository containing examples for [Eclipse Kura™](https://eclipse.org/kura "Eclipse Kura™").
 
