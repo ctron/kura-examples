@@ -11,18 +11,19 @@
 
 	<artifactId>camel</artifactId>
 	<packaging>pom</packaging>
-	
+
 	<name>Eclipse Kura Examples :: Camel :: Camel Example #1</name>
 	<description>A set of examples based on Apache Camel</description>
 
 	<modules>
 		<module>camel-example-1</module>
+		<module>camel-example-2</module>
 	</modules>
-	
+
 	<properties>
 		<camel.version>2.17.3</camel.version>
 	</properties>
-	
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>

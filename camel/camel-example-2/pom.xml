@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>de.dentrassi.kura.examples</groupId>
+		<artifactId>camel</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>..</relativePath>
+	</parent>
+
+	<artifactId>camel-example-2</artifactId>
+	<packaging>bundle</packaging>
+
+	<name>Eclipse Kura Examples :: Camel :: Camel Example #2</name>
+
+	<properties>
+		<mysql-connector.version>5.1.42</mysql-connector.version>
+		<neoscada-utils.version>0.4.0</neoscada-utils.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.eclipse.kura</groupId>
+			<artifactId>org.eclipse.kura.api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.kura</groupId>
+			<artifactId>org.eclipse.kura.camel</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-jdbc</artifactId>
+			<version>${camel.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql-connector.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.neoscada.utils</groupId>
+			<artifactId>org.eclipse.scada.utils</artifactId>
+			<version>${neoscada-utils.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.service.component.annotations</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.service.metatype.annotations</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>de.dentrassi.maven</groupId>
+				<artifactId>osgi-dp</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>build</goal>
+						</goals>
+						<phase>package</phase>
+						<configuration>
+							<additionalDependencies>
+								<additionalDependency>
+									<groupId>mysql</groupId>
+									<artifactId>mysql-connector-java</artifactId>
+									<version>${mysql-connector.version}</version>
+								</additionalDependency>
+								<additionalDependency>
+									<groupId>org.apache.camel</groupId>
+									<artifactId>camel-jdbc</artifactId>
+									<version>${camel.version}</version>
+								</additionalDependency>
+								<additionalDependency>
+									<groupId>org.eclipse.neoscada.utils</groupId>
+									<artifactId>org.eclipse.scada.utils</artifactId>
+									<version>${neoscada-utils.version}</version>
+								</additionalDependency>
+							</additionalDependencies>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>local-test</id>
+			<build>
+				<plugins>
+
+					<plugin>
+						<artifactId>maven-dependency-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>install</phase>
+								<goals>
+									<goal>copy</goal>
+								</goals>
+								<configuration>
+									<outputDirectory>${project.build.directory}/local</outputDirectory>
+									<artifactItems>
+										<artifactItem>
+											<groupId>${project.groupId}</groupId>
+											<artifactId>${project.artifactId}</artifactId>
+											<version>${project.version}</version>
+										</artifactItem>
+										<artifactItem>
+											<groupId>mysql</groupId>
+											<artifactId>mysql-connector-java</artifactId>
+											<version>${mysql-connector.version}</version>
+										</artifactItem>
+										<artifactItem>
+											<groupId>org.apache.camel</groupId>
+											<artifactId>camel-jdbc</artifactId>
+											<version>${camel.version}</version>
+										</artifactItem>
+										<artifactItem>
+											<groupId>org.eclipse.neoscada.utils</groupId>
+											<artifactId>org.eclipse.scada.utils</artifactId>
+											<version>${neoscada-utils.version}</version>
+										</artifactItem>
+									</artifactItems>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+</project>
