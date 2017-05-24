@@ -45,6 +45,8 @@ Once Kura is started up you can drop all required artifacts into this folder my 
 Apache File Install will periodically scan this folder, pick up any changes and deploy them into Kura
 automatically. It will also update the bundles the next time this command is being called.
 
+For remote debugging and JMX support please see: https://github.com/ctron/kura-emulator#running-with-jmx-enabled
+
 ## Configure component
 
 Log in to Kura and configure the component "Camel Example #2":

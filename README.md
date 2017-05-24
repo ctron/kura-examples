@@ -32,7 +32,7 @@ to your local setup.
 ### Kura
 
 You will of course need a Kura capable device with support for Camel. You will need version
-2.1 or higher of Kura.
+3.0 or higher of Kura.
 
 **Note:** If you are using ESF, you will need to install the "FUSE addon" in order to have
 support of Apache Camel as ESF does not ship Camel/FUSE out of the box.
