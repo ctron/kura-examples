@@ -1,6 +1,6 @@
 # Eclipse Kura™ examples
 
-This is a repository containing examples for [Eclipse Kura](https://eclipse.org/kura "Eclipse Kura").
+This is a repository containing examples for [Eclipse Kura™](https://eclipse.org/kura "Eclipse Kura™").
 
 ## Pre-requisites
 
@@ -9,12 +9,11 @@ You will need the following pre-requisites in order compile and use these exampl
  1. A local installation of Java 1.8.x
  1. A local installation of Apache Maven 3.3.x
  1. A local installation of Git
- 1. A Kura capable device version 2.1+
+ 1. A Kura capable device version 3.0+
 
 ### Java 8
 
-Although Kura 2.1 does not support Java 8, it is required during the build process.
-So a local installation of Java 8 is required.
+Java 8 is required as build and runtime environment. 
 
 ### Apache Maven 3.3.x
 
@@ -77,8 +76,8 @@ pick them up.
 Of course you may need to adapt the path to your local setup and you may
 also drop the trailing `:z` if you are not running SElinux.
 
-The Kura emulator image is based on a development snapshot Kura 3.0.0 and
-will be updated to the Kura 3.0.0 release once it is available.
+The Kura emulator image is based on the Kura 3.0.0 release, adding a few
+necessary patches to let it run inside of docker.
 
 The container can also be run on Windows and Mac OS X.
 
