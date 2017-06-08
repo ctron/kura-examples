@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<routes
+<routes id="routes-446c6dea-0749-495f-96ef-1b65aab8437e"
     xmlns="http://camel.apache.org/schema/spring"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://camel.apache.org/schema/spring https://camel.apache.org/schema/spring/camel-spring-2.17.3.xsd">
-
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://camel.apache.org/schema/spring https://camel.apache.org/schema/spring/camel-spring-2.17.3.xsd">
     <!--
       - also see:
       -   https://camel.apache.org/simple.html
       -   https://camel.apache.org/stream.html
       -   https://camel.apache.org/timer.html
       -->
-
-    <route id="camle-example-1">
-        <from uri="timer:t1" />
-        <setBody>
+    <route id="camel-example-simple-timer">
+        <from id="timerTrigger" uri="timer:t1"/>
+        <setBody id="setBodyToRandomValue">
             <simple>${random(100)}</simple>
         </setBody>
-        <to uri="stream:out" />
+        <to id="streamOutMessage" uri="stream:out"/>
     </route>
-
 </routes>
