@@ -38,4 +38,5 @@ Log in to Kura and configure the component "Camel Example #3":
 
 ## Checking the result
 
-Check in the target system. You should see a random stream numbers on the topic `myapp/data`.
+Check in the target system. You should see a random stream numbers on the topic `myapp/data`
+containing `random` as the single metric.

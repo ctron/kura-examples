@@ -10,6 +10,7 @@
  *******************************************************************************/
 package de.dentrassi.kura.examples.camel3;
 
+import org.osgi.service.metatype.annotations.AttributeDefinition;
 import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 
 /**
@@ -21,4 +22,8 @@ import org.osgi.service.metatype.annotations.ObjectClassDefinition;
  */
 @ObjectClassDefinition(id = "de.dentrassi.kura.examples.camel3.CamelExampleConfigurableComponent", name = "Camel Example #3", description = "This is the Camel example #3 component")
 @interface Config {
+
+    @AttributeDefinition(name = "Cloud Service PID", required = false, description = "The Kura Service PID of the cloud service to use. Defaults to the first available instance if unset. Use 'org.eclipse.kura.cloud.CloudService' in order to lock this to the Kura default cloud service.")
+    public String cloudServicePid();
+
 }

@@ -14,12 +14,14 @@ import static org.eclipse.kura.camel.runner.CamelRunner.createOsgiRegistry;
 import static org.osgi.framework.FrameworkUtil.getBundle;
 import static org.osgi.service.component.annotations.ConfigurationPolicy.REQUIRE;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.commons.io.IOUtils;
 import org.eclipse.kura.camel.bean.PayloadFactory;
+import org.eclipse.kura.camel.component.Configuration;
 import org.eclipse.kura.camel.runner.CamelRunner;
 import org.eclipse.kura.camel.runner.RoutesProvider;
 import org.eclipse.kura.camel.runner.XmlRoutesProvider;
@@ -28,6 +30,7 @@ import org.osgi.framework.BundleContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.metatype.annotations.Designate;
 
 /**
@@ -72,17 +75,16 @@ import org.osgi.service.metatype.annotations.Designate;
 @Component(immediate = true, configurationPolicy = REQUIRE)
 public class CamelExampleConfigurableComponent implements ConfigurableComponent {
 
-    private final CamelRunner runner;
+    private CamelRunner runner;
 
-    public CamelExampleConfigurableComponent() throws Exception {
-
+    private static CamelRunner createRunner(final Map<String, ?> properties) throws IOException {
         final Map<String, Object> services = new HashMap<>();
         services.put("payloadFactory", new PayloadFactory());
 
         final BundleContext ctx = getBundle(CamelExampleConfigurableComponent.class)
             .getBundleContext();
 
-        this.runner = new CamelRunner.Builder(ctx)
+        final CamelRunner.Builder builder = new CamelRunner.Builder(ctx)
 
             // JMX is disabled by default
 
@@ -95,31 +97,48 @@ public class CamelExampleConfigurableComponent implements ConfigurableComponent 
 
             // register out payload factory
 
-            .registryFactory(createOsgiRegistry(ctx, services))
+            .registryFactory(createOsgiRegistry(ctx, services));
 
-            // build the runner
+        // set the cloud service PID
 
-            .build();
+        final String cloudServicePid = Configuration.asString(properties, "cloudServicePid");
+
+        if (cloudServicePid != null && !cloudServicePid.isEmpty()) {
+            builder.cloudService("kura.service.pid", cloudServicePid);
+        }
+
+        // build the runner
+
+        final CamelRunner runner = builder.build();
 
         // Set the routes provider, will be activated when the context is started
 
-        this.runner.setRoutes(new XmlRoutesProvider(
+        runner.setRoutes(new XmlRoutesProvider(
                 IOUtils.toString(CamelExampleConfigurableComponent.class.getResource("routes.xml"))));
+
+        return runner;
     }
 
     @Activate
-    public void activate() {
-        /*
-         * Simply activate the runner. This will create wait for dependencies
-         * (like the Camel "stream" component and then create the Camel context.
-         * Once the context is created it will call our "BeforeStart" method and
-         * then actually start the context
-         */
+    public void activate(final Map<String, ?> properties) throws IOException {
+        this.runner = createRunner(properties);
         this.runner.start();
     }
 
     @Deactivate
     public void deactivate() {
-        this.runner.stop();
+        if (this.runner != null) {
+            this.runner.stop();
+            this.runner = null;
+        }
+    }
+
+    @Modified
+    public void modified(final Map<String, ?> properties) throws Exception {
+        /*
+         * We are lazy here and simply re-configure by restarting
+         */
+        deactivate();
+        activate(properties);
     }
 }
