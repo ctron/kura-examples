@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes id="routes-5afcbc78-bfb1-11e7-ae3e-c85b762e5a2c"
+    xmlns="http://camel.apache.org/schema/spring"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://camel.apache.org/schema/spring https://camel.apache.org/schema/spring/camel-spring-2.17.0.xsd">
+    <!--
+      - also see:
+      -   https://camel.apache.org/simple.html
+      -   https://camel.apache.org/timer.html
+      -->
+    <route id="camel-example-simple-timer">
+        <from id="timerTrigger" uri="timer:t1"/>
+        <setBody id="setBodyToFactory">
+            <simple>ref:payloadFactory</simple>
+        </setBody>
+        <setBody id="setBodyToRandomValue">
+            <simple>body.create('random', random(100))</simple>
+        </setBody>
+        <to id="toCloud" uri="kura-cloud:myapp/data"/>
+    </route>
+</routes>

@@ -12,12 +12,13 @@
 	<artifactId>camel</artifactId>
 	<packaging>pom</packaging>
 
-	<name>Eclipse Kura Examples :: Camel :: Camel Example #1</name>
+	<name>Eclipse Kura Examples :: Camel :: Camel Examples</name>
 	<description>A set of examples based on Apache Camel</description>
 
 	<modules>
 		<module>camel-example-1</module>
 		<module>camel-example-2</module>
+        <module>camel-example-3</module>
 	</modules>
 
 	<properties>
