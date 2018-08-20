@@ -5,7 +5,7 @@ This is a repository containing examples for [Eclipse Kura™](https://eclipse.o
 * [simple-example-1](simple/simple-example-1): A simple Kura component using a pure Maven build workflow
 * [camel-example-1](camel/camel-example-1): A simple example running Camel
 * [camel-example-2](camel/camel-example-2): A more complex Camel example including JDBC and full featured configuration
-* [camel-example-3](camel/camel-example-3): A simple example publishing to the cloud API using Camle
+* [camel-example-3](camel/camel-example-3): A simple example publishing to the cloud API using Camel
 
 ## Pre-requisites
 
