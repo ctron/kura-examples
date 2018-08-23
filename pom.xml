@@ -108,7 +108,7 @@
                 <plugin>
                     <groupId>de.dentrassi.maven</groupId>
                     <artifactId>osgi-dp</artifactId>
-                    <version>0.3.0</version>
+                    <version>0.4.0</version>
                 </plugin>
             </plugins>
         </pluginManagement>
