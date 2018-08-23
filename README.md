@@ -12,17 +12,17 @@ This is a repository containing examples for [Eclipse Kura™](https://eclipse.o
 You will need the following pre-requisites in order compile and use these examples:
 
  1. A local installation of Java 1.8.x
- 1. A local installation of Apache Maven 3.3.x
+ 1. A local installation of Apache Maven 3.5.x
  1. A local installation of Git
- 1. A Kura capable device version 3.0+
+ 1. A Eclipse Kura capable device version 3.2+
 
 ### Java 8
 
 Java 8 is required as build and runtime environment. 
 
-### Apache Maven 3.3.x
+### Apache Maven 3.5.x
 
-The build process requires Apache Maven 3.3.x. Earlier versions are not supported.
+The build process requires Apache Maven 3.5.x. Earlier versions are not supported.
 
 ### Git
 
@@ -33,10 +33,10 @@ just need "some git tool". All following examples will however assume you
 have the classic `git` command line tool installed. So you may need to adapt
 to your local setup.
 
-### Kura
+### Eclipse Kura
 
 You will of course need a Kura capable device with support for Camel. You will need version
-3.0 or higher of Kura.
+3.2 or newer of Kura.
 
 **Note:** If you are using ESF, you will need to install the "FUSE addon" in order to have
 support of Apache Camel as ESF does not ship Camel/FUSE out of the box.
@@ -81,7 +81,7 @@ pick them up.
 Of course you may need to adapt the path to your local setup and you may
 also drop the trailing `:z` if you are not running SElinux.
 
-The Kura emulator image is based on the Kura 3.0.0 release, adding a few
+The Kura emulator image is based on the Kura 3.2.0 release, adding a few
 necessary patches to let it run inside of docker.
 
 The container can also be run on Windows and Mac OS X.
