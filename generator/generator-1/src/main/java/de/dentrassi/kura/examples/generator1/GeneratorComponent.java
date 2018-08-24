@@ -58,18 +58,23 @@ public class GeneratorComponent implements ConfigurableComponent {
 	private CloudClient cloudClient;
 	private ToDoubleFunction<Instant> function;
 
-	public void setCloudService(CloudService cloudService) throws KuraException {
+	public void bindCloudService(final CloudService cloudService) throws KuraException {
+		logger.info("Set cloud service: {}", cloudService);
+
 		this.cloudService = cloudService;
 		if (this.cloudService != null) {
 			this.cloudClient = this.cloudService.newCloudClient("generator-1");
 		}
 	}
 
-	public void unsetCloudService(CloudService cloudService) {
+	public void unsetCloudService(final CloudService cloudService) {
+		logger.info("Unset cloud service: {}", cloudService);
+
 		if (this.cloudClient != null) {
 			this.cloudClient.release();
 			this.cloudClient = null;
 		}
+
 		this.cloudService = null;
 	}
 
@@ -93,6 +98,8 @@ public class GeneratorComponent implements ConfigurableComponent {
 
 	private void tick() {
 
+		logger.info("Ticking ...");
+
 		final CloudClient cloudClient = this.cloudClient;
 
 		try {
@@ -102,6 +109,7 @@ public class GeneratorComponent implements ConfigurableComponent {
 		} catch (final Exception e) {
 			logger.warn("Failed to publish", e);
 		}
+
 	}
 
 	protected KuraPayload makePayload() {
@@ -113,19 +121,24 @@ public class GeneratorComponent implements ConfigurableComponent {
 	private void setConfig(final Config config) {
 
 		if (!this.config.enabled()) {
+			logger.info("Component is not enabled");
 			stop();
 			return;
 		}
 
 		if (this.config.period() != config.period()) {
+			logger.info("Period time changes, restarting scheduler");
 			stop();
 		}
 
+		this.function = now -> sawtooth(now, config);
+
 		if (this.executor != null) {
+			logger.info("Already running");
 			return;
 		}
 
-		this.function = now -> sawtooth(now, config);
+		logger.info("Starting scheduler");
 
 		this.executor = Executors.newScheduledThreadPool(1);
 		this.job = this.executor.scheduleWithFixedDelay(this::tick, config.period(), config.period(),
@@ -139,6 +152,8 @@ public class GeneratorComponent implements ConfigurableComponent {
 	}
 
 	private void stop() {
+		logger.info("Stopping scheduler");
+
 		if (this.job != null) {
 			this.job.cancel(false);
 			this.job = null;
@@ -149,7 +164,7 @@ public class GeneratorComponent implements ConfigurableComponent {
 		}
 	}
 
-	private void dumpProperties(final String operation, Config config) {
+	private void dumpProperties(final String operation, final Config config) {
 		if (logger.isInfoEnabled()) {
 			logger.info("=========== {} ===========", operation);
 			logger.info("\t'enabled' = '{}'", config.enabled());
