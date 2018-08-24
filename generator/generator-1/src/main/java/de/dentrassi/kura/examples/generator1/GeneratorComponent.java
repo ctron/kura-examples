@@ -120,13 +120,13 @@ public class GeneratorComponent implements ConfigurableComponent {
 
 	private void setConfig(final Config config) {
 
-		if (!this.config.enabled()) {
+		if (!config.enabled()) {
 			logger.info("Component is not enabled");
 			stop();
 			return;
 		}
 
-		if (this.config.period() != config.period()) {
+		if (this.config != null && (this.config.period() != config.period())) {
 			logger.info("Period time changes, restarting scheduler");
 			stop();
 		}
