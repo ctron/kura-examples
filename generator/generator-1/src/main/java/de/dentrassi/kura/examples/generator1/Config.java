@@ -26,9 +26,12 @@ import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 	double minValue() default 0.0;
 
 	@AttributeDefinition(name = "Maximum Value", description = "The maximum value")
-	double maxValue() default 100.0;
+	double maxValue() default 5000.0;
 
 	@AttributeDefinition(name = "Period", description = "The period in milliseconds")
-	long period() default 1000;
+	long period() default 60_000;
+	
+	@AttributeDefinition(name = "Publish rate", description = "The publish rate in milliseconds")
+	long publishRate() default 1000;
 
 }

@@ -126,7 +126,7 @@ public class GeneratorComponent implements ConfigurableComponent {
 			return;
 		}
 
-		if (this.config != null && (this.config.period() != config.period())) {
+		if (this.config != null && (this.config.publishRate() != config.publishRate())) {
 			logger.info("Period time changes, restarting scheduler");
 			stop();
 		}
@@ -141,7 +141,7 @@ public class GeneratorComponent implements ConfigurableComponent {
 		logger.info("Starting scheduler");
 
 		this.executor = Executors.newScheduledThreadPool(1);
-		this.job = this.executor.scheduleWithFixedDelay(this::tick, config.period(), config.period(),
+		this.job = this.executor.scheduleWithFixedDelay(this::tick, config.publishRate(), config.publishRate(),
 				TimeUnit.MILLISECONDS);
 	}
 
