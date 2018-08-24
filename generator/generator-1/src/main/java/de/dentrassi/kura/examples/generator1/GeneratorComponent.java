@@ -104,7 +104,7 @@ public class GeneratorComponent implements ConfigurableComponent {
 
 		try {
 			if (cloudClient != null) {
-				cloudClient.publish("data", makePayload(), 0, false);
+				cloudClient.publish("data", makePayload(), 1, false);
 			}
 		} catch (final Exception e) {
 			logger.warn("Failed to publish", e);
