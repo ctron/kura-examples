@@ -48,6 +48,21 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<configuration>
+					<instructions>
+						<!-- required to work around a bad version increment -->
+						<Import-Package>
+							org.eclipse.kura.message;version="[1.1,3)",
+							*
+						</Import-Package>
+					</instructions>
+				</configuration>
+			</plugin>
+
 		</plugins>
 	</build>
 </project>
