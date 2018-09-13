@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
@@ -18,7 +19,7 @@
 	<modules>
 		<module>camel-example-1</module>
 		<module>camel-example-2</module>
-        <module>camel-example-3</module>
+		<module>camel-example-3</module>
 	</modules>
 
 	<properties>
@@ -31,7 +32,23 @@
 				<groupId>org.apache.camel</groupId>
 				<artifactId>camel-core</artifactId>
 				<version>${camel.version}</version>
+				<scope>provided</scope>
 			</dependency>
+
+			<dependency>
+				<groupId>org.apache.camel</groupId>
+				<artifactId>camel-core-osgi</artifactId>
+				<version>${camel.version}</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.camel</groupId>
+				<artifactId>camel-test</artifactId>
+				<version>${camel.version}</version>
+				<scope>test</scope>
+			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 </project>
