@@ -80,7 +80,7 @@ final class Routes extends RouteBuilder {
         from("direct:update.wires")
                 .routeId("update.wires")
                 .transform().groovy("['P1': request.body.setpoint1, 'P2': request.body.setpoint2]")
-                .to("seda:wiresOutput1");
+                .to("seda:wiresOutput1?waitForTaskToComplete=Never");
 
         from("direct:update.iec.p1")
                 .routeId("update.iec.p1")
