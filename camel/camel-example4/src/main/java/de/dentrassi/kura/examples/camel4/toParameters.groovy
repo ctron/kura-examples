@@ -14,4 +14,4 @@ import de.dentrassi.kura.examples.camel4.Parameters
 def p1 = request.body.collectMany { it.properties.findAll { it.key == 'P1'}.collect{it.value.value} }[0]
 def p2 = request.body.collectMany { it.properties.findAll { it.key == 'P2'}.collect{it.value.value} }[0]
 
-return new Parameters(p1, p2);
+return new Parameters(p1, p2)

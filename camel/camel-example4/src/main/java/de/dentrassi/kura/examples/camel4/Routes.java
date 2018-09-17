@@ -83,14 +83,16 @@ final class Routes extends RouteBuilder {
                 .to("seda:wiresOutput1");
 
         from("direct:update.iec.p1")
+                .routeId("update.iec.p1")
                 .transform().simple("body.setpoint1").to("iec60870-server:0.0.0.0:2404/1-0-0-0-1");
 
         from("direct:update.iec.p2")
+                .routeId("update.iec.p2")
                 .transform().simple("body.setpoint2").to("iec60870-server:0.0.0.0:2404/1-0-0-0-2");
 
         from("seda:wiresInput1")
                 .routeId("wiresInput1")
-                .transform().groovy("classpath:de/dentrassi/kura/examples/camel4/toParameters.groovy")
+                .transform().groovy("resource:classpath:de/dentrassi/kura/examples/camel4/toParameters.groovy")
                 .to("direct:updateParameters");
 
         from("iec60870-server:0.0.0.0:2404/1-0-0-0-1")
