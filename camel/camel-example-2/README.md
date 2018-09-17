@@ -38,7 +38,7 @@ If you want to rebuild and directly test, you can leverage Apache File install. 
 as described above (with `-v`) and use the absolute location of `target/local` as volume mapping
 (e.g. `/home/user/git/kura-examples/camel/camel-example-2/target/local`).
 
-Once Kura is started up you can drop all required artifacts into this folder my executing:
+Once Kura is started up you can drop all required artifacts into this folder by executing:
 
     mvn clean install -Plocal-test
 

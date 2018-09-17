@@ -21,7 +21,7 @@ If you want to rebuild and directly test, you can leverage Apache FileInstall. R
 as described in the link above (with `-v`) and use the absolute location of `target/load` as volume mapping
 (e.g. `/home/user/git/kura-examples/camel/camel-example-4/target/load`).
 
-Once Kura is started up, you can drop all required artifacts into this folder my executing:
+Once Kura is started up, you can drop all required artifacts into this folder by executing:
 
     mvn clean install -Plocal-test
 
