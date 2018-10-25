@@ -46,132 +46,132 @@ import org.slf4j.LoggerFactory;
 @Component(immediate = true, configurationPolicy = REQUIRE)
 public class GeneratorComponent implements ConfigurableComponent {
 
-	private static final Logger logger = LoggerFactory.getLogger(GeneratorComponent.class);
+    private static final Logger logger = LoggerFactory.getLogger(GeneratorComponent.class);
 
-	private ScheduledExecutorService executor;
-	private ScheduledFuture<?> job;
-	private Config config;
+    private ScheduledExecutorService executor;
+    private ScheduledFuture<?> job;
+    private Config config;
 
-	@Reference(bind = "bindCloudService", unbind = "unsetCloudService")
-	private CloudService cloudService;
+    @Reference(bind = "bindCloudService", unbind = "unbindCloudService")
+    private CloudService cloudService;
 
-	private CloudClient cloudClient;
-	private ToDoubleFunction<Instant> function;
+    private CloudClient cloudClient;
+    private ToDoubleFunction<Instant> function;
 
-	public void bindCloudService(final CloudService cloudService) throws KuraException {
-		logger.info("Set cloud service: {}", cloudService);
+    public void bindCloudService(final CloudService cloudService) throws KuraException {
+        logger.info("Set cloud service: {}", cloudService);
 
-		this.cloudService = cloudService;
-		if (this.cloudService != null) {
-			this.cloudClient = this.cloudService.newCloudClient("generator-1");
-		}
-	}
+        this.cloudService = cloudService;
+        if (cloudService != null) {
+            this.cloudClient = cloudService.newCloudClient("generator-1");
+        }
+    }
 
-	public void unsetCloudService(final CloudService cloudService) {
-		logger.info("Unset cloud service: {}", cloudService);
+    public void unbindCloudService(final CloudService cloudService) {
+        logger.info("Unset cloud service: {}", cloudService);
 
-		if (this.cloudClient != null) {
-			this.cloudClient.release();
-			this.cloudClient = null;
-		}
+        if (this.cloudClient != null) {
+            this.cloudClient.release();
+            this.cloudClient = null;
+        }
 
-		this.cloudService = null;
-	}
+        this.cloudService = null;
+    }
 
-	@Activate
-	public void activate(final Config config) {
-		dumpProperties("activate", config);
-		setConfig(config);
-	}
+    @Activate
+    public void activate(final Config config) {
+        dumpProperties("activate", config);
+        setConfig(config);
+    }
 
-	@Modified
-	public void modified(final Config config) {
-		dumpProperties("modified", config);
-		setConfig(config);
-	}
+    @Modified
+    public void modified(final Config config) {
+        dumpProperties("modified", config);
+        setConfig(config);
+    }
 
-	@Deactivate
-	public void deactivate() {
-		logger.info("Deactivate");
-		stop();
-	}
+    @Deactivate
+    public void deactivate() {
+        logger.info("Deactivate");
+        stop();
+    }
 
-	private void tick() {
+    private void tick() {
 
-		logger.info("Ticking ...");
+        logger.info("Ticking ...");
 
-		final CloudClient cloudClient = this.cloudClient;
+        final CloudClient cloudClient = this.cloudClient;
 
-		try {
-			if (cloudClient != null) {
-				cloudClient.publish("data", makePayload(), 1, false);
-			}
-		} catch (final Exception e) {
-			logger.warn("Failed to publish", e);
-		}
+        try {
+            if (cloudClient != null) {
+                cloudClient.publish("data", makePayload(), 1, false);
+            }
+        } catch (final Exception e) {
+            logger.warn("Failed to publish", e);
+        }
 
-	}
+    }
 
-	protected KuraPayload makePayload() {
-		final KuraPayload payload = new KuraPayload();
-		payload.addMetric("value", this.function.applyAsDouble(Instant.now()));
-		return payload;
-	}
+    protected KuraPayload makePayload() {
+        final KuraPayload payload = new KuraPayload();
+        payload.addMetric("value", this.function.applyAsDouble(Instant.now()));
+        return payload;
+    }
 
-	private void setConfig(final Config config) {
+    private void setConfig(final Config config) {
 
-		if (!config.enabled()) {
-			logger.info("Component is not enabled");
-			stop();
-			return;
-		}
+        if (!config.enabled()) {
+            logger.info("Component is not enabled");
+            stop();
+            return;
+        }
 
-		if (this.config != null && (this.config.publishRate() != config.publishRate())) {
-			logger.info("Period time changes, restarting scheduler");
-			stop();
-		}
+        if (this.config != null && this.config.publishRate() != config.publishRate()) {
+            logger.info("Period time changes, restarting scheduler");
+            stop();
+        }
 
-		this.function = now -> sawtooth(now, config);
+        this.function = now -> sawtooth(now, config);
 
-		if (this.executor != null) {
-			logger.info("Already running");
-			return;
-		}
+        if (this.executor != null) {
+            logger.info("Already running");
+            return;
+        }
 
-		logger.info("Starting scheduler");
+        logger.info("Starting scheduler");
 
-		this.executor = Executors.newScheduledThreadPool(1);
-		this.job = this.executor.scheduleWithFixedDelay(this::tick, config.publishRate(), config.publishRate(),
-				TimeUnit.MILLISECONDS);
-	}
+        this.executor = Executors.newScheduledThreadPool(1);
+        this.job = this.executor.scheduleWithFixedDelay(this::tick, config.publishRate(), config.publishRate(),
+                TimeUnit.MILLISECONDS);
+    }
 
-	private static double sawtooth(final Instant now, final Config config) {
-		final double diff = config.maxValue() - config.minValue();
-		final double v = diff / ((double) config.period()) * now.toEpochMilli();
-		return (v % diff) + config.minValue();
-	}
+    private static double sawtooth(final Instant now, final Config config) {
+        final double diff = config.maxValue() - config.minValue();
+        final double v = diff / config.period() * now.toEpochMilli();
+        return v % diff + config.minValue();
+    }
 
-	private void stop() {
-		logger.info("Stopping scheduler");
+    private void stop() {
+        logger.info("Stopping scheduler");
 
-		if (this.job != null) {
-			this.job.cancel(false);
-			this.job = null;
-		}
-		if (this.executor == null) {
-			this.executor.shutdown();
-			this.executor = null;
-		}
-	}
+        if (this.job != null) {
+            this.job.cancel(false);
+            this.job = null;
+        }
+        if (this.executor == null) {
+            this.executor.shutdown();
+            this.executor = null;
+        }
+    }
 
-	private void dumpProperties(final String operation, final Config config) {
-		if (logger.isInfoEnabled()) {
-			logger.info("=========== {} ===========", operation);
-			logger.info("\t'enabled' = '{}'", config.enabled());
-			logger.info("\t'minValue' = '{}'", config.minValue());
-			logger.info("\t'maxValue' = '{}'", config.maxValue());
-			logger.info("\t'period' = '{}'", config.period());
-			logger.info("=========== {} ===========", operation);
-		}
-	}
+    private void dumpProperties(final String operation, final Config config) {
+        if (logger.isInfoEnabled()) {
+            logger.info("=========== {} ===========", operation);
+            logger.info("\t'enabled' = '{}'", config.enabled());
+            logger.info("\t'minValue' = '{}'", config.minValue());
+            logger.info("\t'maxValue' = '{}'", config.maxValue());
+            logger.info("\t'period' = '{}'", config.period());
+            logger.info("=========== {} ===========", operation);
+        }
+    }
 }

@@ -19,19 +19,19 @@ import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 @ObjectClassDefinition(id = "de.dentrassi.kura.examples.generator1.GeneratorComponent", name = "Generator #1", description = "This is a sawtooth generator")
 @interface Config {
 
-	@AttributeDefinition(name = "Enabled", description = "Whether the component is enabled or not")
-	boolean enabled() default true;
+    @AttributeDefinition(name = "Enabled", description = "Whether the component is enabled or not")
+    boolean enabled() default true;
 
-	@AttributeDefinition(name = "Minimum", description = "The minimum value")
-	double minValue() default 0.0;
+    @AttributeDefinition(name = "Minimum", description = "The minimum value")
+    double minValue() default 0.0;
 
-	@AttributeDefinition(name = "Maximum Value", description = "The maximum value")
-	double maxValue() default 5000.0;
+    @AttributeDefinition(name = "Maximum Value", description = "The maximum value")
+    double maxValue() default 5000.0;
 
-	@AttributeDefinition(name = "Period", description = "The period in milliseconds")
-	long period() default 60_000;
-	
-	@AttributeDefinition(name = "Publish rate", description = "The publish rate in milliseconds")
-	long publishRate() default 1000;
+    @AttributeDefinition(name = "Period", description = "The period in milliseconds")
+    long period() default 60_000;
+
+    @AttributeDefinition(name = "Publish rate", description = "The publish rate in milliseconds")
+    long publishRate() default 1000;
 
 }
