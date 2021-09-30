@@ -310,7 +310,12 @@ public class MicrobitComponent implements ConfigurableComponent {
         logger.info("Properties: {}", properties);
         final var message = new KuraMessage(payload, properties);
 
-        this.cloudPublisher.publish(message);
+        final var publisher = this.cloudPublisher;
+        if (publisher != null) {
+            publisher.publish(message);
+        } else {
+            logger.info("Skipping publish due to missing publisher");
+        }
     }
 
     private static void readValue(final BluetoothLeGattService s, final Characteristic ch, final KuraPayload payload) throws KuraBluetoothIOException {
