@@ -24,7 +24,6 @@
         <module>simple</module>
         <module>camel</module>
         <module>generator</module>
-        <module>ble</module>
     </modules>
 
     <properties>
