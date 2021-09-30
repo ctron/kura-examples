@@ -38,7 +38,7 @@ import org.osgi.service.metatype.annotations.ObjectClassDefinition;
             name = "Enabled",
             description = "Whether the component is enabled or not."
     )
-    boolean enabled() default true;
+    boolean enabled() default false;
 
     @AttributeDefinition(
             name = "Bluetooth Interface Name",
